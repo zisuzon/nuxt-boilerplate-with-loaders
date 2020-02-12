@@ -1,6 +1,10 @@
-# dgKhata
+# Nuxt JS boiler plate
 
-> My kickass Nuxt.js project
+> A nuxt js boilerplate with sass, yaml and eslint.
+
+## Requirement
+
+> Node version >= 10.0.0
 
 ## Build Setup
 
