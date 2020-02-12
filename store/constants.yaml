@@ -1,0 +1,13 @@
+ACTION:
+  # All items under ACTION key will contribute three respective mutation types
+  # 1. {ACTION_NAME}_STARTED
+  # 2. {ACTION_NAME}_COMPLETED
+  # 3. {ACTION_NAME}_SUCCESSFUL
+  # 4. {ACTION_NAME}_FAILED
+  - LOAD_CATEGORIES
+GENERIC:
+  # All items under GENERIC key will be process
+  -
+    API_END_POINTS:
+      LOCATION: 'location'
+      PICKUP_POINT: 'pickup-point'

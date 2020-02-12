@@ -1,3 +1,7 @@
+const path = require('path')
+
+const isPlainObject = require('lodash/isPlainObject')
+const extend = require('lodash/extend')
 
 export default {
   mode: 'spa',
@@ -60,6 +64,64 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+
+      /**
+       * custom configuration for store/constants.yaml
+       */
+      const yaml = require('js-yaml')
+      const actionSufixes = ['STARTED', 'COMPLETED', 'SUCCESSFUL', 'FAILED']
+
+      config.module.rules.push({
+        test: /\.yaml$/,
+        include: path.resolve(__dirname, 'store/constants'),
+        use: [{
+          loader: 'skeleton-loader',
+          options: {
+            procedure: function (content) {
+              let parsed = yaml.safeLoad(content)
+              let obj = {}
+              let actions = parsed.ACTION ? parsed.ACTION : []
+              let generics = parsed.ACTION ? (parsed.GENERIC ? parsed.GENERIC : []) : parsed
+
+              for (var i = 0; i < actions.length; i++) {
+                obj[actions[i]] = actions[i]
+                for (var j = 0; j < actionSufixes.length; j++) {
+                  let type = actions[i] + '_' + actionSufixes[j]
+                  obj[type] = type
+                }
+              }
+
+              for (i = 0; i < generics.length; i++) {
+                if (isPlainObject(generics[i])) {
+                  extend(obj, generics[i])
+                } else {
+                  obj[generics[i]] = generics[i]
+                }
+              }
+
+              return obj
+            },
+            toCode: true
+          }
+        }]
+      })
+
+      /**
+       * configuration for other yaml files
+       */
+      config.module.rules.push({
+        test: /\.yaml$/,
+        exclude: path.resolve(__dirname, 'store/constants'),
+        use: [{
+          loader: 'skeleton-loader',
+          options: {
+            procedure: function (content) {
+              return yaml.load(content)
+            },
+            toCode: true
+          }
+        }]
+      })
     }
   }
 }
