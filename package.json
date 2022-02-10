@@ -24,7 +24,7 @@
     "eslint": "^6.1.0",
     "eslint-plugin-nuxt": ">=0.4.2",
     "js-yaml": "^3.13.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "raw-loader": "^4.0.0",
     "sass-loader": "^8.0.2",
     "skeleton-loader": "^2.0.0"
